@@ -4373,3 +4373,8 @@ org.keycloak.exceptions.TokenNotActiveException: Token is not active
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.5.16.jar:8.5.16]
 	at java.lang.Thread.run(Unknown Source) [na:1.8.0_151]
 
+2018-10-02 08:36:13.675  INFO 12424 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2018-10-02 08:36:13.678  INFO 12424 --- [RMI TCP Connection(2)-127.0.0.1] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@25b485ba: startup date [Mon Oct 01 11:48:58 EDT 2018]; root of context hierarchy
+2018-10-02 08:36:13.692  INFO 12424 --- [RMI TCP Connection(2)-127.0.0.1] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-10-02 08:36:13.697  INFO 12424 --- [RMI TCP Connection(2)-127.0.0.1] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:3, serverValue:3}] to 127.0.0.1:27017 because the pool has been closed.
+2018-10-02 08:36:13.699  INFO 12424 --- [RMI TCP Connection(2)-127.0.0.1] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:2, serverValue:2}] to 127.0.0.1:27017 because the pool has been closed.
