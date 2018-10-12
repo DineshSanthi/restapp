@@ -85,5 +85,12 @@ public class ColumnController {
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);
 	}
+	
+	@RequestMapping(value ="/profile", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<List<Column>> getTables() {
+    	List<Column> columns = this.columnRepository.findAll();
+        return ResponseEntity.accepted().body(columns);
+	}
+	
 
 }
