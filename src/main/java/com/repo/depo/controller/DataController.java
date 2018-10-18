@@ -1,12 +1,12 @@
 package com.repo.depo.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.bson.Document;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
 import com.repo.depo.authentication.DSResponse;
 import com.repo.depo.authentication.SmartGWTDSResponse;
+import com.repo.depo.model.Column;
 
 @RestController
 @RequestMapping("/data")
@@ -33,6 +33,9 @@ public class DataController {
 	
 	@Autowired
 	private MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private ColumnController columnController;
 	
 	@RequestMapping(value="/{entityName}/insert", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@PathVariable("entityName") String collectionName, @Valid @RequestBody String jsonString) {
@@ -106,6 +109,31 @@ public class DataController {
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);		
+	}
+	
+	@RequestMapping(value ="/{entityName}/allWithDefinition", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<SmartGWTDSResponse> getAllWithDefinition(@PathVariable("entityName") String collectionName) {
+	    List<BasicDBObject> data = mongoTemplate.findAll(BasicDBObject.class, collectionName);
+	    for (int i = 0; i < data.size(); i++) {
+	    	BasicDBObject rowObj = (BasicDBObject) data.get(i);
+	    	rowObj.put("id",rowObj.getObjectId("_id").toString());
+	    	rowObj.remove("_id");
+		}
+	    
+	    ResponseEntity<List<Column>> columnList = columnController.getTableDefinition(collectionName);
+	    
+	    List<Column> columnData = columnList.getBody();
+	    
+	    List<Object> holder = new ArrayList<>();
+
+	    Collections.addAll(holder, columnData);
+	    Collections.addAll(holder, data);
+	    
+	    DSResponse dsResponse = new DSResponse();
+    	dsResponse.setData(holder.toArray());
+    	SmartGWTDSResponse response = new SmartGWTDSResponse();
+    	response.setResponse(dsResponse);
+        return ResponseEntity.accepted().body(response);
 	}
 	
 }

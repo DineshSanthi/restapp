@@ -77,18 +77,18 @@ public class ColumnController {
 	}
 
 	@RequestMapping(value ="/{collectionName}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<SmartGWTDSResponse> getTables(@PathVariable("collectionName") String appName) {
+	public ResponseEntity<SmartGWTDSResponse> getTables(@PathVariable("collectionName") String tableName) {
 		DSResponse dsResponse = new DSResponse();
-    	List<Column> columns = this.columnRepository.findByTableName(appName);
+    	List<Column> columns = this.columnRepository.findByTableName(tableName);
     	dsResponse.setData(columns.toArray());
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);
 	}
 	
-	@RequestMapping(value ="/profile", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<List<Column>> getTables() {
-    	List<Column> columns = this.columnRepository.findAll();
+	@RequestMapping(value ="/definition/{collectionName}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<List<Column>> getTableDefinition(@PathVariable("collectionName") String tableName) {
+    	List<Column> columns = this.columnRepository.findByTableName(tableName);
         return ResponseEntity.accepted().body(columns);
 	}
 	
