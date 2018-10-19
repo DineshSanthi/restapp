@@ -1,10 +1,13 @@
 package com.repo.depo.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.repo.depo.authentication.DSResponse;
 import com.repo.depo.authentication.SmartGWTDSResponse;
 import com.repo.depo.model.Column;
+import com.repo.depo.model.Relation;
 import com.repo.depo.model.Table;
 import com.repo.depo.repository.ColumnRepository;
 
@@ -30,6 +34,9 @@ import com.repo.depo.repository.ColumnRepository;
 public class ColumnController {
 	
 	private ColumnRepository columnRepository;
+	
+	@Autowired
+	private RelationController relationController;
 
 	public ColumnController(ColumnRepository columnRepository) {
 		this.columnRepository = columnRepository;
@@ -87,9 +94,17 @@ public class ColumnController {
 	}
 	
 	@RequestMapping(value ="/definition/{collectionName}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<List<Column>> getTableDefinition(@PathVariable("collectionName") String tableName) {
+	public ResponseEntity<Object[]> getTableDefinition(@PathVariable("collectionName") String tableName) {
     	List<Column> columns = this.columnRepository.findByTableName(tableName);
-        return ResponseEntity.accepted().body(columns);
+    	ResponseEntity<List<Relation>> relationList = relationController.getRelation(tableName);
+ 	    //List<Object[]> holder = new ArrayList<>();
+ 	    
+ 	    Object[] definition = new Object[2];
+ 	    definition[0] = columns;
+ 	    definition[1] = relationList.getBody();
+ 	    //Collections.addAll(holder, columns);
+ 	    //Collections.addAll(holder, );
+        return ResponseEntity.accepted().body(definition);
 	}
 	
 

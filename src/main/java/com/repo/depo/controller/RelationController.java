@@ -82,5 +82,12 @@ public class RelationController {
 
 		return relation;
 	}
+	
+	@RequestMapping(value ="/relation/{collectionName}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<List<Relation>> getRelation(@PathVariable("collectionName") String tableName) {
+    	List<Relation> relation = this.relationRepository.findByPrimaryTable(tableName);
+        return ResponseEntity.accepted().body(relation);
+	}
+	
 
 }

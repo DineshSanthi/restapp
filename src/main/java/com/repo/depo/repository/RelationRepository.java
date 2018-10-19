@@ -1,5 +1,6 @@
 package com.repo.depo.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -12,6 +13,8 @@ import com.repo.depo.model.Relation;
 public interface RelationRepository extends MongoRepository<Relation, String> {
 	
 	Optional<Relation> findById(String id);
+	
+	List<Relation> findByPrimaryTable(String primaryTable);
 
 	void deleteById(String id);
 
