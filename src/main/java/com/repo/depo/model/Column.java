@@ -14,9 +14,18 @@ public class Column  {
 	@Id
 	private String id;
 	private String tableName;
+	private String appName;
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
 	@NotNull
 	@Indexed(unique=true)
-	@ValidateName(message="Please ebter a valid name")
+	@ValidateName(message="Please enter a valid name")
 	private String columnName;
 	private Integer columnSize;
 	private String columnType;
