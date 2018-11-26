@@ -35,10 +35,18 @@ public class TableController {
 		this.tableRepository = tableRepository;
 	}
 
-	@RequestMapping(value ="/{appName}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+	@RequestMapping(value ="/{appName}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<SmartGWTDSResponse> getTables(@PathVariable("appName") String appName) {
 		DSResponse dsResponse = new DSResponse();
-    	List<Table> tables = this.tableRepository.findByAppName(appName);
+		List<Table> tables = null;
+		if(appName.equalsIgnoreCase("null"))
+		{
+		tables = this.tableRepository.findAll();	
+		}
+		else
+		{
+    	tables = this.tableRepository.findByAppName(appName);
+		}
     	dsResponse.setData(tables.toArray());
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);

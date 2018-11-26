@@ -3,6 +3,7 @@ package com.repo.depo.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,9 +48,13 @@ public class RelationController {
 
 	@RequestMapping(value="/insert", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@RequestBody Relation relation) {
+		ObjectId objectId = new ObjectId();
+		relation.setId(objectId.toString());
 		this.relationRepository.insert(relation);
+		Object[] data = new Object[1];
+		data[0] = relation;
 		DSResponse dsResponse = new DSResponse();
-    	dsResponse.setData(null);
+    	dsResponse.setData(data);
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);		
@@ -87,6 +92,24 @@ public class RelationController {
 	public ResponseEntity<List<Relation>> getRelation(@PathVariable("collectionName") String tableName) {
     	List<Relation> relation = this.relationRepository.findByPrimaryTable(tableName);
         return ResponseEntity.accepted().body(relation);
+	}
+	
+	@RequestMapping(value ="/application/{appName}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName) {
+		DSResponse dsResponse = new DSResponse();
+		List<Relation> relations = null;
+		if(appName.equalsIgnoreCase("null"))
+		{
+			relations = this.relationRepository.findAll();	
+		}
+		else
+		{
+			relations = this.relationRepository.findByAppName(appName);
+		}
+    	dsResponse.setData(relations.toArray());
+    	SmartGWTDSResponse response = new SmartGWTDSResponse();
+    	response.setResponse(dsResponse);
+        return ResponseEntity.accepted().body(response);
 	}
 	
 

@@ -15,6 +15,8 @@ public interface RelationRepository extends MongoRepository<Relation, String> {
 	Optional<Relation> findById(String id);
 	
 	List<Relation> findByPrimaryTable(String primaryTable);
+	
+	List<Relation> findByAppName(String appName);
 
 	void deleteById(String id);
 

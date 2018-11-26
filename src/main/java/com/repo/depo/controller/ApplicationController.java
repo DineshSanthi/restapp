@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.bson.types.ObjectId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,9 +44,13 @@ public class ApplicationController {
 	
 	@RequestMapping(value="/insert", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@Valid @RequestBody Application app) {
+		ObjectId objectId = new ObjectId();
+		app.setId(objectId.toString());
 		this.applicationRepository.insert(app);
+		Object[] data = new Object[1];
+		data[0] = app;
 		DSResponse dsResponse = new DSResponse();
-    	dsResponse.setData(null);
+    	dsResponse.setData(data);
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);		

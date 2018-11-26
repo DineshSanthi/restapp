@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,10 +55,14 @@ public class ColumnController {
 	}
 
 	@RequestMapping(value="/insert", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@Valid @RequestBody Column column) {
+	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@RequestBody Column column) {
+		ObjectId objectId = new ObjectId();
+		column.setId(objectId.toString());
 		this.columnRepository.insert(column);
+		Object[] data = new Object[1];
+		data[0] = column;
 		DSResponse dsResponse = new DSResponse();
-    	dsResponse.setData(null);
+    	dsResponse.setData(data);
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);		
@@ -97,15 +103,30 @@ public class ColumnController {
 	public ResponseEntity<Object[]> getTableDefinition(@PathVariable("collectionName") String tableName) {
     	List<Column> columns = this.columnRepository.findByTableName(tableName);
     	ResponseEntity<List<Relation>> relationList = relationController.getRelation(tableName);
- 	    //List<Object[]> holder = new ArrayList<>();
  	    
  	    Object[] definition = new Object[2];
  	    definition[0] = columns;
  	    definition[1] = relationList.getBody();
- 	    //Collections.addAll(holder, columns);
- 	    //Collections.addAll(holder, );
         return ResponseEntity.accepted().body(definition);
 	}
 	
+
+	@RequestMapping(value ="/application/{appName}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName) {
+		DSResponse dsResponse = new DSResponse();
+		List<Column> columns = null;
+		if(appName.equalsIgnoreCase("null"))
+		{
+			columns = this.columnRepository.findAll();	
+		}
+		else
+		{
+			columns = this.columnRepository.findByAppName(appName);
+		}
+    	dsResponse.setData(columns.toArray());
+    	SmartGWTDSResponse response = new SmartGWTDSResponse();
+    	response.setResponse(dsResponse);
+        return ResponseEntity.accepted().body(response);
+	}
 
 }
