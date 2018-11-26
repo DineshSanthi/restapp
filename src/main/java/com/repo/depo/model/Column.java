@@ -23,6 +23,12 @@ public class Column  {
 		this.appName = appName;
 	}
 
+<<<<<<< HEAD
+=======
+	@NotNull
+	@Indexed(unique=true)
+	@ValidateName(message="Please enter a valid name")
+>>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 	private String columnName;
 	private Integer columnSize;
 	private String columnType;

@@ -32,7 +32,11 @@ public class UserController {
 	}
 
     @RequestMapping(value ="/all", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+<<<<<<< HEAD
     public ResponseEntity<SmartGWTDSResponse> getUser() {
+=======
+    public ResponseEntity<SmartGWTDSResponse> bookInfo3() {
+>>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
     	DSResponse dsResponse = new DSResponse();
     	List<User> users = this.userRepository.findAll();
     	dsResponse.setData(users.toArray());
@@ -40,12 +44,15 @@ public class UserController {
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);
     } 	
+<<<<<<< HEAD
     
     @RequestMapping(value ="/relatedUsers", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
     public List<User> getUserList() {
     	List<User> users = this.userRepository.findAll();
         return users;
     } 
+=======
+>>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 	
 	@RequestMapping(value="/insert", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@Valid @RequestBody User user) {

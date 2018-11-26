@@ -35,8 +35,11 @@ public class DataController {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+<<<<<<< HEAD
 	
 	private RelationController relationController;
+=======
+>>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 
 	@RequestMapping(value = "/{entityName}/insert", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -45,7 +48,10 @@ public class DataController {
 		ObjectId objectId = new ObjectId();
 		Document doc = Document.parse(jsonString);
 		doc.put("_id", objectId);
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 		mongoTemplate.insert(doc, collectionName);
 		doc.put("id", doc.getObjectId("_id").toString());
 		doc.remove("_id");
@@ -57,6 +63,7 @@ public class DataController {
 		response.setResponse(dsResponse);
 		return ResponseEntity.accepted().body(response);
 	}
+<<<<<<< HEAD
 
 	@RequestMapping(value = "/{entityName}/all", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SmartGWTDSResponse> getAll(@PathVariable("entityName") String collectionName,
@@ -79,6 +86,22 @@ public class DataController {
 			}
 		}
 
+=======
+
+	@RequestMapping(value = "/{entityName}/all", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SmartGWTDSResponse> getAll(@PathVariable("entityName") String collectionName,
+			@Valid @RequestBody String jsonString) {
+		Document doc = Document.parse(jsonString);
+		String value = doc.get("data").toString();
+		Query query = new Query();
+		Document docData = (Document)doc.get("data");
+		if (docData.size() > 0) {
+			for (String key : docData.keySet()) {
+				query.addCriteria(new Criteria(key).is(docData.get(key)));
+			}
+		}
+
+>>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 		List<BasicDBObject> data = mongoTemplate.find(query, BasicDBObject.class, collectionName);
 		for (int i = 0; i < data.size(); i++) {
 			data.get(i).put("id", data.get(i).getObjectId("_id").toString());
