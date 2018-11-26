@@ -10,12 +10,9 @@ import javax.validation.Valid;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-=======
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,12 +42,9 @@ import com.repo.depo.repository.SupportedLanguagesRepository;
 @RequestMapping("/supportedlanguages")
 public class SupportedLanguagesController {
 	
-<<<<<<< HEAD
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-=======
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 	private SupportedLanguagesRepository supportedLanguagesRepository;
 	
 	public SupportedLanguagesController(SupportedLanguagesRepository supportedLanguagesRepository) {
@@ -94,7 +88,6 @@ public class SupportedLanguagesController {
 
 	
 	@RequestMapping(value ="/application/{appName}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE )
-<<<<<<< HEAD
 	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName,@Valid @RequestBody String jsonString) {
 		
 		Document doc = Document.parse(jsonString);
@@ -108,19 +101,6 @@ public class SupportedLanguagesController {
 		}
 		List<SupportedLanguages> supportedLanguages = mongoTemplate.find(query, SupportedLanguages.class);
 		DSResponse dsResponse = new DSResponse();
-=======
-	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName) {
-		DSResponse dsResponse = new DSResponse();
-		List<SupportedLanguages> supportedLanguages = null;
-		if(appName.equalsIgnoreCase("null"))
-		{
-			supportedLanguages = this.supportedLanguagesRepository.findAll();	
-		}
-		else
-		{
-			supportedLanguages = this.supportedLanguagesRepository.findByAppName(appName);
-		}
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
     	dsResponse.setData(supportedLanguages.toArray());
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);

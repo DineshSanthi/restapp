@@ -1,23 +1,16 @@
 package com.repo.depo.controller;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 import java.util.List;
 
 import javax.validation.Valid;
 
-<<<<<<< HEAD
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-=======
-import org.bson.types.ObjectId;
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.repo.depo.authentication.DSResponse;
 import com.repo.depo.authentication.SmartGWTDSResponse;
 import com.repo.depo.model.ApplicationUser;
-<<<<<<< HEAD
 import com.repo.depo.model.User;
-=======
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 import com.repo.depo.repository.ApplicationUserRepository;
 
 @RestController
@@ -42,22 +32,18 @@ public class ApplicationUserController {
 	
 	private ApplicationUserRepository applicationUserRepository;
 	
-<<<<<<< HEAD
 	@Autowired
 	private UserController userController;
 	
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-=======
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 	public ApplicationUserController(ApplicationUserRepository applicationUserRepository) {
 		this.applicationUserRepository = applicationUserRepository;
 	}
 
 	@RequestMapping(value="/insert", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@Valid @RequestBody ApplicationUser applicationUser) {
-<<<<<<< HEAD
 		
 		DSResponse dsResponse = new DSResponse();
 		ObjectId objectId = new ObjectId();
@@ -75,15 +61,6 @@ public class ApplicationUserController {
 			}
 		}
     	dsResponse.setData(relatedUsers.toArray());
-=======
-		ObjectId objectId = new ObjectId();
-		applicationUser.setId(objectId.toString());
-		this.applicationUserRepository.insert(applicationUser);
-		Object[] data = new Object[1];
-		data[0] = applicationUser;
-		DSResponse dsResponse = new DSResponse();
-    	dsResponse.setData(data);
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);		
@@ -112,7 +89,6 @@ public class ApplicationUserController {
 
 	
 	@RequestMapping(value ="/application/{appName}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE )
-<<<<<<< HEAD
 	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName,@RequestBody String jsonString) {
 	
 		Document doc = Document.parse(jsonString);
@@ -139,20 +115,6 @@ public class ApplicationUserController {
 	/*	Object[] data = new Object[1];
 		data[0] = relatedUsers;*/
 		dsResponse.setData(relatedUsers.toArray());
-=======
-	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName) {
-		DSResponse dsResponse = new DSResponse();
-		List<ApplicationUser> applicationUser = null;
-		if(appName.equalsIgnoreCase("null"))
-		{
-			applicationUser = this.applicationUserRepository.findAll();	
-		}
-		else
-		{
-			applicationUser = this.applicationUserRepository.findByAppName(appName);
-		}
-    	dsResponse.setData(applicationUser.toArray());
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);

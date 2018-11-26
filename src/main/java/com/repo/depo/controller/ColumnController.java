@@ -55,11 +55,7 @@ public class ColumnController {
 	}
 
 	@RequestMapping(value="/insert", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-<<<<<<< HEAD
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@RequestBody Column column) {
-=======
-	@ResponseBody public ResponseEntity<SmartGWTDSResponse> insert(@Valid @RequestBody Column column) {
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 		ObjectId objectId = new ObjectId();
 		column.setId(objectId.toString());
 		this.columnRepository.insert(column);

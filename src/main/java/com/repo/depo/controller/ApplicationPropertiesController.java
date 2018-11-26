@@ -10,12 +10,9 @@ import javax.validation.Valid;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-=======
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,13 +40,10 @@ import com.repo.depo.repository.ColumnRepository;
 @RequestMapping("/applicationproperties")
 public class ApplicationPropertiesController {
 	
-<<<<<<< HEAD
 	
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-=======
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 	private ApplicationPropertiesRepository applicationPropertiesRepository;
 	
 	public ApplicationPropertiesController(ApplicationPropertiesRepository applicationPropertiesRepository) {
@@ -93,7 +87,6 @@ public class ApplicationPropertiesController {
 
 	
 	@RequestMapping(value ="/application/{appName}", method=RequestMethod.PUT, produces=MediaType.APPLICATION_JSON_VALUE )
-<<<<<<< HEAD
 	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName,@Valid @RequestBody String jsonString) {
 		Document doc = Document.parse(jsonString);
 		String value = doc.get("data").toString();
@@ -109,11 +102,6 @@ public class ApplicationPropertiesController {
 
 		DSResponse dsResponse = new DSResponse();
 	/*	List<ApplicationProperties> appProps = null;
-=======
-	public ResponseEntity<SmartGWTDSResponse> getColumns(@PathVariable("appName") String appName) {
-		DSResponse dsResponse = new DSResponse();
-		List<ApplicationProperties> appProps = null;
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
 		if(appName.equalsIgnoreCase("null"))
 		{
 			appProps = this.applicationPropertiesRepository.findAll();	
@@ -121,11 +109,7 @@ public class ApplicationPropertiesController {
 		else
 		{
 			appProps = this.applicationPropertiesRepository.findByAppName(appName);
-<<<<<<< HEAD
 		}*/
-=======
-		}
->>>>>>> 5851bc25dbd16e15d309b40a31d80f719fa65028
     	dsResponse.setData(appProps.toArray());
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
