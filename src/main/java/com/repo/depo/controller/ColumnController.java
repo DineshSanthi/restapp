@@ -72,8 +72,10 @@ public class ColumnController {
 	    { "Accept=application/json", "Content-Type=application/json" }, consumes = "application/json" )
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> update(@RequestBody Column column) {
 		this.columnRepository.save(column);
+		Object[] data = new Object[1];
+		data[0] = column;
 		DSResponse dsResponse = new DSResponse();
-    	dsResponse.setData(null);
+    	dsResponse.setData(data);
     	SmartGWTDSResponse response = new SmartGWTDSResponse();
     	response.setResponse(dsResponse);
         return ResponseEntity.accepted().body(response);		
