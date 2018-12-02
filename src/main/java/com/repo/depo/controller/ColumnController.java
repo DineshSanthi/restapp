@@ -68,7 +68,7 @@ public class ColumnController {
         return ResponseEntity.accepted().body(response);		
 	}
 
-	@RequestMapping(value="/update", method=RequestMethod.PUT,produces = "application/json", headers =
+	@RequestMapping(value="/update/{id}", method=RequestMethod.PUT,produces = "application/json", headers =
 	    { "Accept=application/json", "Content-Type=application/json" }, consumes = "application/json" )
 	@ResponseBody public ResponseEntity<SmartGWTDSResponse> update(@RequestBody Column column) {
 		this.columnRepository.save(column);
